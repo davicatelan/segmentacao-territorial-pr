@@ -74,7 +74,11 @@ Portanto, deve ser interpretado como instrumento analítico inicial de apoio à 
 
 Estrutura do Projeto
 
-segmentacao-territorial-pr/ │ ├── segmentacao_territorial.py ├── data/ │ └── Base.xlsx
+segmentacao-territorial-pr/
+│
+├── segmentacao_territorial.py
+├── data/
+│   └── Base.xlsx
 
 Como Executar
 
