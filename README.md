@@ -7,15 +7,15 @@ A proposta não é ranquear municípios, mas construir uma tipologia territorial
 Objetivo
 Identificar grupos de municípios com características semelhantes em termos de:
 
-Estrutura industrial
+Estrutura industrial (participação do emprego industrial no totaal de empregos)
 
-Crescimento do emprego
+Crescimento do emprego industrial
 
-Massa salarial
+Massa salarial industrial per capita
 
-População jovem
+População jovem (participação da população de 15 a 24 anos na população total)
 
-Oferta de educação técnica
+Oferta de educação técnica relativa (razão entre as matrículas na educação técnica e a população de 15 a 24 anos)
 
 A partir dessa segmentação, é possível pensar em estratégias diferenciadas de investimento e incentivo à qualificação profissional.
 
