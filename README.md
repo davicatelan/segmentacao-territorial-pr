@@ -23,7 +23,9 @@ Metodologia
 A análise foi conduzida em duas etapas principais:
 
 Análise Fatorial (PCA com rotação Varimax)
+
 Padronização das variáveis (Z-Score)
+
 Teste de Esfericidade de Bartlett
 
 Extração de 3 fatores interpretáveis
@@ -31,11 +33,15 @@ Extração de 3 fatores interpretáveis
 Fatores identificados:
 
 Fator 1 – Estrutura Industrial
+
 Fator 2 – Dinamismo Econômico
+
 Fator 3 – Potencial de Qualificação Técnica
 
 Clusterização (K-Means)
+
 Método Elbow
+
 Método da Silhueta
 
 Definição final de 3 clusters
@@ -55,8 +61,11 @@ Limitações
 O modelo considera um conjunto específico de variáveis estruturais e não incorpora:
 
 Infraestrutura física detalhada
+
 Qualidade da educação básica
+
 Indicadores fiscais municipais
+
 Políticas locais específicas
 
 Portanto, deve ser interpretado como instrumento analítico inicial de apoio à decisão, e não como diagnóstico definitivo.
