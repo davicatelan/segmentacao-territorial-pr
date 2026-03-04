@@ -72,26 +72,4 @@ Políticas locais específicas
 
 Portanto, deve ser interpretado como instrumento analítico inicial de apoio à decisão, e não como diagnóstico definitivo.
 
-Estrutura do Projeto
-
-├── segmentacao-territorial-pr/
-│   └── segmentacao_territorial.py
-├── data/
-   └── Base.xlsx
-
-
-Como Executar
-
-Instale as dependências:
-
-pip install pandas scipy factor_analyzer scikit-learn pingouin matplotlib seaborn openpyxl
-
-Execute:
-
-python segmentacao_territorial.py
-
-O script gerará o arquivo:
-
-Base_clusters.txt
-
 Projeto desenvolvido para fins acadêmicos e de portfólio em Data Science.
