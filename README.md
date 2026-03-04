@@ -8,9 +8,13 @@ Objetivo
 Identificar grupos de municípios com características semelhantes em termos de:
 
 Estrutura industrial
+
 Crescimento do emprego
+
 Massa salarial
+
 População jovem
+
 Oferta de educação técnica
 
 A partir dessa segmentação, é possível pensar em estratégias diferenciadas de investimento e incentivo à qualificação profissional.
