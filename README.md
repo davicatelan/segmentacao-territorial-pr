@@ -1,73 +1,123 @@
 Segmentação Territorial para Educação Técnica – Paraná
 
-Este projeto aplica técnicas de Análise Multivariada para identificar perfis estruturais distintos entre municípios do Paraná, com o objetivo de apoiar decisões estratégicas relacionadas a políticas públicas e iniciativas privadas voltadas à educação técnica.
+Este projeto aplica técnicas de análise multivariada para identificar perfis estruturais distintos entre municípios do Paraná, com o objetivo de apoiar reflexões estratégicas sobre políticas públicas e iniciativas privadas relacionadas à educação técnica e qualificação profissional.
 
 A proposta não é ranquear municípios, mas construir uma tipologia territorial baseada em múltiplas dimensões econômicas e demográficas.
 
 Objetivo
+
 Identificar grupos de municípios com características semelhantes em termos de:
 
-Estrutura industrial (participação do emprego industrial no totaal de empregos)
+• Estrutura industrial
+(participação do emprego industrial no total de empregos)
 
-Crescimento do emprego industrial
+• Crescimento do emprego industrial
 
-Massa salarial industrial per capita
+• Massa salarial industrial per capita
 
-População jovem (participação da população de 15 a 24 anos na população total)
+• Estrutura demográfica jovem
+(participação da população de 15 a 24 anos na população total)
 
-Oferta de educação técnica relativa (razão entre as matrículas na educação técnica e a população de 15 a 24 anos)
+• Oferta relativa de educação técnica
+(razão entre matrículas na educação técnica e a população de 15 a 24 anos)
 
-A partir dessa segmentação, é possível pensar em estratégias diferenciadas de investimento e incentivo à qualificação profissional.
+A partir dessa segmentação, torna-se possível analisar diferentes contextos territoriais da educação profissional, permitindo discutir estratégias diferenciadas de investimento e incentivo à qualificação.
 
 Metodologia
-A análise foi conduzida em duas etapas principais:
 
-Análise Fatorial (PCA com rotação Varimax)
+A análise foi conduzida em duas etapas principais.
 
-Padronização das variáveis (Z-Score)
+1. Redução de dimensionalidade
 
-Teste de Esfericidade de Bartlett
+Foi aplicada Análise Fatorial baseada em PCA (Principal Component Analysis) com rotação Varimax para identificar dimensões estruturais dos territórios.
 
-Extração de 3 fatores interpretáveis
+Etapas realizadas:
 
-Fatores identificados:
+• padronização das variáveis (Z-score)
+• teste de esfericidade de Bartlett
+• extração de três fatores interpretáveis
 
-Fator 1 – Estrutura Industrial
+Fatores identificados
 
-Fator 2 – Dinamismo Econômico
+Fator 1 – Base Industrial
+Captura municípios com maior presença da indústria e maior massa salarial industrial.
 
-Fator 3 – Potencial de Qualificação Técnica
+Fator 2 – Crescimento do Emprego Industrial
+Representa o dinamismo recente do mercado de trabalho industrial.
 
-Clusterização (K-Means)
+Fator 3 – Potencial Demográfico
+Associado à presença relativa de população jovem.
 
-Método Elbow
+2. Segmentação territorial
 
-Método da Silhueta
+Os escores fatoriais foram utilizados como entrada para um modelo de clusterização K-Means, com o objetivo de identificar grupos de municípios com perfis estruturais semelhantes.
 
-Definição final de 3 clusters
+Critérios utilizados para definição do número de clusters:
 
-Os clusters representam perfis territoriais distintos, e não hierarquias de desempenho.
+• Método Elbow
+• Método da Silhueta
 
-A diferenciação foi validada estatisticamente via ANOVA.
+O modelo final identificou quatro clusters territoriais.
 
-Interpretação Estratégica
+A diferenciação entre os grupos foi posteriormente validada estatisticamente por meio de ANOVA, confirmando diferenças significativas entre os clusters.
 
-O modelo identifica três perfis territoriais com combinações distintas de estrutura produtiva, dinamismo econômico e potencial demográfico.
-Municípios relevantes como Curitiba, Londrina e Maringá foram classificados em clusters diferentes, indicando que possuem estruturas econômicas distintas quando analisadas de forma multivariada.
-A segmentação permite pensar em políticas e iniciativas diferenciadas para expansão ou incentivo à educação técnica.
+Perfis Territoriais Identificados
+
+A segmentação resultou em quatro perfis territoriais distintos, refletindo diferentes combinações entre estrutura industrial, dinamismo econômico e características demográficas.
+
+Cluster 1 — Demográfico
+Principais características
+
+• Maior participação relativa da população jovem
+• Estrutura industrial moderada
+• Oferta de educação técnica intermediária
+
+Insight
+
+Esses municípios apresentam maior potencial demográfico para formação profissional, indicando contextos onde a educação técnica pode desempenhar papel importante na inserção produtiva da população jovem no mercado de trabalho.
+
+Cluster 2 — Menor Dinamismo
+Principais características
+
+• Menor crescimento recente do emprego industrial
+• Baixa cobertura relativa da educação técnica
+• Estrutura econômica menos intensiva em indústria
+
+Insight
+
+Nesses municípios, a educação técnica pode assumir um papel mais estruturante, ampliando oportunidades de qualificação profissional e contribuindo para o fortalecimento das economias locais.
+
+Cluster 3 — Industrial
+Principais características
+
+• Maior participação da indústria no emprego
+• Maior massa salarial industrial per capita
+• Maior cobertura relativa da educação técnica
+
+Insight
+
+Esses municípios concentram bases industriais mais consolidadas, onde a educação técnica tende a se articular mais diretamente com cadeias produtivas existentes e com a demanda por qualificação especializada.
+
+Cluster 4 — Expansão Industrial
+Principais características
+
+• Crescimento recente mais intenso do emprego industrial
+• Base industrial ainda moderada
+• Baixa cobertura relativa da educação técnica
+
+Insight
+
+Esses municípios apresentam sinais de dinamismo recente no mercado de trabalho industrial, sugerindo contextos em que mudanças na estrutura produtiva podem gerar novas demandas por qualificação profissional no médio prazo.
 
 Limitações
 
-O modelo considera um conjunto específico de variáveis estruturais e não incorpora:
+O modelo considera um conjunto específico de variáveis estruturais e não incorpora outros fatores potencialmente relevantes, como:
 
-Infraestrutura física detalhada
+• infraestrutura educacional detalhada
+• qualidade da educação básica
+• indicadores fiscais municipais
+• políticas públicas locais específicas
 
-Qualidade da educação básica
-
-Indicadores fiscais municipais
-
-Políticas locais específicas
-
-Portanto, deve ser interpretado como instrumento analítico inicial de apoio à decisão, e não como diagnóstico definitivo.
+Portanto, os resultados devem ser interpretados como instrumento analítico exploratório de apoio à decisão, e não como diagnóstico definitivo.
 
 Projeto desenvolvido para fins acadêmicos e de portfólio em Data Science.
