@@ -6,6 +6,16 @@ PCA (Varimax) + K-Means + ANOVA
 Autor: Davi
 """
 
+"""
+Variáveis utilizadas no modelo:
+
+CrescimentoEmprego -> crescimento relativo do emprego industrial
+EmpregoIND -> participação do emprego industrial no total de empregos
+MassaSalarial -> massa salarial industrial per capita
+PopJovem -> participação da população de 15 a 24 anos
+OfertaTecnica -> razão entre matrículas técnicas e população jovem
+"""
+
 # =========================
 # IMPORTAÇÃO DE PACOTES
 # =========================
@@ -31,6 +41,17 @@ base = pd.read_excel("data/Projetos/Base.xlsx")
 
 if "Municipio" not in base.columns:
     raise ValueError("A base precisa conter a coluna 'Municipio'.")
+    
+# =========================
+# TRATAMENTO DE OUTLIERS
+# =========================
+# Crescimento muito extremo pode ocorrer em municípios com base industrial pequena.
+# Para reduzir a influência de outliers, o crescimento foi truncado no intervalo [-1, 1].
+
+base["CrescimentoEmprego"] = base["CrescimentoEmprego"].clip(-1,1)
+
+print("\nDistribuição após tratamento")
+print(base["CrescimentoEmprego"].describe())
 
 # =========================
 # PREPARAÇÃO PARA PCA
@@ -66,38 +87,52 @@ print("Qui²:", round(bartlett,2))
 print("p-valor:", round(p_value,6))
 
 # =========================
-# PCA (3 FATORES + VARIMAX)
+# ANÁLISE FATORIAL (PCA + VARIMAX)
 # =========================
 
-fa = FactorAnalyzer(n_factors=3, method="principal", rotation="varimax")
-fa.fit(base_pca_pad)
+# 1) Modelo "bruto" (sem rotação) -> usado para decisão do nº de fatores
+fa_raw = FactorAnalyzer(n_factors=3, method="principal", rotation=None)
+fa_raw.fit(base_pca_pad)
+
+variance_raw = fa_raw.get_factor_variance()
+tabela_variancia_raw = pd.DataFrame(variance_raw).T
+tabela_variancia_raw.columns = ["Autovalor", "Variância Explicada", "Variância Acumulada"]
+tabela_variancia_raw.index = ["Fator 1", "Fator 2", "Fator 3"]
+
+print("\nVariância por Fator (sem rotação) - usada para decisão")
+print(tabela_variancia_raw.round(4))
+
+# 2) Modelo rotacionado (Varimax) -> usado para interpretação dos fatores
+fa_rot = FactorAnalyzer(n_factors=3, method="principal", rotation="varimax")
+fa_rot.fit(base_pca_pad)
+
+variance_rot = fa_rot.get_factor_variance()
+tabela_variancia_rot = pd.DataFrame(variance_rot).T
+tabela_variancia_rot.columns = ["Autovalor", "Variância Explicada", "Variância Acumulada"]
+tabela_variancia_rot.index = ["Fator 1", "Fator 2", "Fator 3"]
+
+print("\nVariância por Fator (com Varimax) - mesma variância total, redistribuída")
+print(tabela_variancia_rot.round(4))
 
 # =========================
-# VARIÂNCIA EXPLICADA
+# CARGAS FATORIAIS (ROTACIONADAS)
 # =========================
 
-variance = fa.get_factor_variance()
-
-tabela_variancia = pd.DataFrame(variance).T
-tabela_variancia.columns = ["Autovalor", "Variância Explicada", "Variância Acumulada"]
-tabela_variancia.index = ["Fator 1", "Fator 2", "Fator 3"]
-
-print("\nVariância por Fator")
-print(tabela_variancia)
-
-# Cargas fatoriais
 loadings = pd.DataFrame(
-    fa.loadings_,
+    fa_rot.loadings_,
     index=base_pca_pad.columns,
     columns=["Fator 1", "Fator 2", "Fator 3"]
 )
 
-print("\nCargas Fatoriais")
-print(loadings)
+print("\nCargas Fatoriais (originais)")
+print(loadings.round(3))
 
-# Escores fatoriais
+# =========================
+# ESCORES FATORIAIS
+# =========================
+
 fatores = pd.DataFrame(
-    fa.transform(base_pca_pad),
+    fa_rot.transform(base_pca_pad),
     columns=["Fator 1", "Fator 2", "Fator 3"]
 )
 
@@ -105,7 +140,11 @@ fatores = pd.DataFrame(
 # CLUSTERIZAÇÃO
 # =========================
 
+# 1) Padroniza escores fatoriais 
+
 fatores_pad = fatores.apply(zscore, ddof=1)
+
+# 2) Avaliação de k: inércia, silhueta e tamanho dos clusters
 
 # Elbow
 inercia = []
@@ -133,8 +172,23 @@ plt.xlabel("Número de Clusters")
 plt.ylabel("Silhueta Média")
 plt.show()
 
-# Modelo final (3 clusters)
-kmeans_final = KMeans(n_clusters=3, random_state=100, n_init=20)
+# 3) Tamanho dos clusters para k candidatos (ajuda a validar a escolha)
+
+k_candidatos = [3, 4, 5]
+
+print("\nTamanho dos clusters (validação por k)")
+for k in k_candidatos:
+    km = KMeans(n_clusters=k, random_state=100, n_init=20, init="k-means++")
+    labels = km.fit_predict(fatores_pad)
+    counts = pd.Series(labels).value_counts().sort_index()
+
+    print(f"\n{k} clusters:")
+    print(counts)
+
+# 4) Modelo final (definição do k escolhido)
+k_final = 4
+
+kmeans_final = KMeans(n_clusters=k_final, random_state=100, n_init=20, init="k-means++")
 base["Cluster"] = kmeans_final.fit_predict(fatores_pad)
 
 # =========================
@@ -153,9 +207,23 @@ print("\nANOVA Fator 3")
 print(pg.anova(dv="Fator 3", between="Cluster", data=base_analise))
 
 # =========================
+# >>> ADICIONADO: PERFIL DOS CLUSTERS (INTERPRETAÇÃO)
+# =========================
+
+# 1) Média dos fatores por cluster
+print("\nMédia dos fatores por cluster")
+print(base_analise.groupby("Cluster")[["Fator 1", "Fator 2", "Fator 3"]].mean().round(3))
+
+# 2) Média das variáveis originais por cluster 
+print("\nMédia das variáveis originais por cluster")
+print(base.groupby("Cluster")[base_pca.columns].mean().round(3))
+
+# 3) Municípios por cluster 
+print("\nTamanho dos clusters")
+print(base["Cluster"].value_counts().sort_index())
+
+# =========================
 # EXPORTAÇÃO
 # =========================
 
-base_analise.to_csv("Base_clusters.txt", sep=";", index=False, encoding="utf-8-sig")
-
-print("\nArquivo 'Base_clusters.txt' exportado com sucesso.")
+base_analise.to_csv("resultados_clusters.csv", sep=";", index=False, encoding="utf-8-sig")
