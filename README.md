@@ -40,9 +40,10 @@ Etapas realizadas:
 Fatores identificados
 
 Fator 1 – Base Industrial
+
 Captura municípios com maior presença da indústria e maior massa salarial industrial.
 
-Fator 2 – Crescimento do Emprego Industrial
+Fator 2 – Crescimento Industrial
 Representa o dinamismo recente do mercado de trabalho industrial.
 
 Fator 3 – Potencial Demográfico
